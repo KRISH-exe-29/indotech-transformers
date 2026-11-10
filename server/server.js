@@ -52,9 +52,8 @@ const clientDist = path.join(__dirname, '..', 'client', 'dist');
 app.use(express.static(clientDist));
 
 app.get('*', (req, res) => {
-    if (!req.path.startsWith('/api')) {
-        res.sendFile(path.join(clientDist, 'index.html'));
-    }
+    if (req.path.startsWith('/api')) return res.status(404).json({ error: 'Not found' });
+    res.sendFile(path.join(clientDist, 'index.html'));
 });
 
 async function generateQR() {
